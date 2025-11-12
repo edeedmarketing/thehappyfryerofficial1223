@@ -63,34 +63,34 @@ const AboutSection = () => {
               ))}
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
-              <div className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow">
+            <div className="grid grid-cols-3 gap-6">
+              <div className="text-center">
                 <div className="flex justify-center mb-3">
-                  <div className="bg-blue-100 p-3 rounded-full">
-                    <Fish size={24} className="text-blue-600" />
+                  <div className="bg-blue-100 p-4 rounded-full w-16 h-16 flex items-center justify-center">
+                    <Fish size={28} className="text-blue-600" strokeWidth={2} />
                   </div>
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1">Fresh Daily</h3>
+                <h3 className="font-semibold text-gray-900 mb-1 text-base">Fresh Daily</h3>
                 <p className="text-sm text-gray-600">Locally sourced</p>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow">
+              <div className="text-center">
                 <div className="flex justify-center mb-3">
-                  <div className="bg-blue-100 p-3 rounded-full">
-                    <Heart size={24} className="text-blue-600" />
+                  <div className="bg-blue-100 p-4 rounded-full w-16 h-16 flex items-center justify-center">
+                    <Heart size={28} className="text-blue-600" strokeWidth={2} />
                   </div>
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1">Made with Love</h3>
+                <h3 className="font-semibold text-gray-900 mb-1 text-base">Made with Love</h3>
                 <p className="text-sm text-gray-600">Traditional recipes</p>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow">
+              <div className="text-center">
                 <div className="flex justify-center mb-3">
-                  <div className="bg-blue-100 p-3 rounded-full">
-                    <Award size={24} className="text-blue-600" />
+                  <div className="bg-blue-100 p-4 rounded-full w-16 h-16 flex items-center justify-center">
+                    <Award size={28} className="text-blue-600" strokeWidth={2} />
                   </div>
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1">Local Favorite</h3>
+                <h3 className="font-semibold text-gray-900 mb-1 text-base">Local Favorite</h3>
                 <p className="text-sm text-gray-600">Community trusted</p>
               </div>
             </div>
