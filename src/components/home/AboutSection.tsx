@@ -25,7 +25,7 @@ const AboutSection = () => {
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          <div className="bg-gray-50 rounded-2xl p-8 space-y-5 text-gray-700 leading-relaxed">
+          <div className="bg-white rounded-3xl shadow-lg p-10 space-y-5 text-gray-700 leading-relaxed">
             <p>
               After years of running a café in Jindalee as well as running a 200 seater bistro, we decided it was time for a change, moving closer to home to focus on what we love most – serving some of the tastiest fish and chips in Logan.
             </p>
