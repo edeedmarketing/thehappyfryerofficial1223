@@ -31,17 +31,20 @@ const HeroSection = () => {
       }
     };
 
-    const handleVideo3End = () => {
-      setCurrentVideo(1);
-      video1.currentTime = 0;
-      video1.play().catch(error => {
-        console.error('Video 1 autoplay failed:', error);
-      });
+    const handleVideo3TimeUpdate = () => {
+      if (video3.currentTime >= 6) {
+        setCurrentVideo(1);
+        video1.currentTime = 0;
+        video2.currentTime = 0;
+        video1.play().catch(error => {
+          console.error('Video 1 autoplay failed:', error);
+        });
+      }
     };
 
     video1.addEventListener('timeupdate', handleVideo1TimeUpdate);
     video2.addEventListener('timeupdate', handleVideo2TimeUpdate);
-    video3.addEventListener('ended', handleVideo3End);
+    video3.addEventListener('timeupdate', handleVideo3TimeUpdate);
 
     video1.play().catch(error => {
       console.error('Video 1 autoplay failed:', error);
@@ -50,7 +53,7 @@ const HeroSection = () => {
     return () => {
       video1.removeEventListener('timeupdate', handleVideo1TimeUpdate);
       video2.removeEventListener('timeupdate', handleVideo2TimeUpdate);
-      video3.removeEventListener('ended', handleVideo3End);
+      video3.removeEventListener('timeupdate', handleVideo3TimeUpdate);
     };
   }, []);
 
@@ -81,7 +84,6 @@ const HeroSection = () => {
         muted
         playsInline
         preload="auto"
-        loop
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
           currentVideo === 3 ? 'opacity-100' : 'opacity-0'
         }`}
