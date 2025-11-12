@@ -7,7 +7,7 @@ const HeroSection = () => {
         muted
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
-        src="https://videos.pexels.com/video-files/3296399/3296399-sd_640_360_25fps.mp4"
+        src="https://videos.pexels.com/video-files/3296402/3296402-sd_640_360_25fps.mp4"
       />
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
