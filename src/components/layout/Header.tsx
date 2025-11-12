@@ -34,7 +34,6 @@ const Header = () => {
     : 'bg-gray-50 shadow-sm border-b border-gray-200';
 
   const textClasses = shouldBeTransparent ? 'text-white' : 'text-gray-600';
-  const activeClasses = shouldBeTransparent ? 'text-white font-semibold underline underline-offset-4' : 'text-blue-600 font-semibold';
   const buttonClasses = shouldBeTransparent ? 'bg-blue-600' : 'bg-blue-600';
   const mobileMenuClasses = shouldBeTransparent ? 'bg-white/95 backdrop-blur-sm' : 'bg-gray-50';
 
@@ -57,13 +56,20 @@ const Header = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-base font-medium transition-colors duration-500 ${
+                className={`relative text-base font-medium transition-all duration-300 ${
                   isActive(link.path)
-                    ? activeClasses
+                    ? shouldBeTransparent ? 'text-white' : 'text-blue-600'
                     : `${textClasses} hover:text-blue-600`
                 }`}
               >
                 {link.label}
+                <span
+                  className={`absolute left-0 right-0 bottom-0 h-0.5 transition-all duration-300 ${
+                    isActive(link.path)
+                      ? shouldBeTransparent ? 'bg-white translate-y-1' : 'bg-blue-600 translate-y-1'
+                      : 'bg-transparent translate-y-0'
+                  }`}
+                />
               </Link>
             ))}
           </nav>
