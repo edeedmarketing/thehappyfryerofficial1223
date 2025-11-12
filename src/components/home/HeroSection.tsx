@@ -5,7 +5,8 @@ const HeroSection = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const videos = [
     'https://www.pexels.com/download/video/3296402/',
-    'https://www.pexels.com/download/video/8880960/'
+    'https://www.pexels.com/download/video/8880960/',
+    'https://www.pexels.com/download/video/4131833/'
   ];
 
   useEffect(() => {
