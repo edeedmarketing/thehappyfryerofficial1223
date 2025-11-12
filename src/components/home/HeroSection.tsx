@@ -14,7 +14,7 @@ const HeroSection = () => {
         <img
           src="/happy_fryer_transparent.png"
           alt="The Happy Fryer"
-          className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 object-contain"
+          className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 object-contain"
         />
       </div>
     </section>
