@@ -80,7 +80,7 @@ const Header = () => {
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-2 transition-colors duration-500 ${textClasses} ${shouldBeTransparent ? 'hover:text-white/80' : 'hover:text-blue-500'}`}
+              className={`p-2 transition-colors duration-300 ${textClasses} hover:text-blue-500`}
               aria-label="Instagram"
             >
               <Instagram size={22} />
@@ -89,7 +89,7 @@ const Header = () => {
               href="https://facebook.com"
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-2 transition-colors duration-500 ${textClasses} ${shouldBeTransparent ? 'hover:text-white/80' : 'hover:text-blue-500'}`}
+              className={`p-2 transition-colors duration-300 ${textClasses} hover:text-blue-500`}
               aria-label="Facebook"
             >
               <Facebook size={22} />
