@@ -56,7 +56,7 @@ const Header = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`relative text-base font-medium transition-all duration-300 ${
+                className={`relative text-lg font-medium transition-all duration-300 ${
                   isActive(link.path)
                     ? shouldBeTransparent ? 'text-white' : 'text-blue-600'
                     : `${textClasses} hover:text-blue-600`
@@ -82,7 +82,7 @@ const Header = () => {
               className={`p-2 transition-colors duration-500 ${textClasses} ${shouldBeTransparent ? 'hover:text-white/80' : 'hover:text-blue-600'}`}
               aria-label="Instagram"
             >
-              <Instagram size={20} />
+              <Instagram size={22} />
             </a>
             <a
               href="https://facebook.com"
@@ -91,13 +91,13 @@ const Header = () => {
               className={`p-2 transition-colors duration-500 ${textClasses} ${shouldBeTransparent ? 'hover:text-white/80' : 'hover:text-blue-600'}`}
               aria-label="Facebook"
             >
-              <Facebook size={20} />
+              <Facebook size={22} />
             </a>
             <Link
               to="/order"
-              className={`flex items-center space-x-2 ${buttonClasses} text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-blue-700 transition-colors`}
+              className={`flex items-center space-x-2 ${buttonClasses} text-white px-6 py-2.5 rounded-full text-base font-medium hover:bg-blue-700 transition-colors`}
             >
-              <ShoppingBag size={16} />
+              <ShoppingBag size={18} />
               <span>Order Now</span>
             </Link>
           </div>
