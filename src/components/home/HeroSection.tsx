@@ -1,18 +1,28 @@
+import { useEffect, useRef } from 'react';
+
 const HeroSection = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(error => {
+        console.error('Video autoplay failed:', error);
+      });
+    }
+  }, []);
+
   return (
     <section className="relative h-[450px] flex items-center justify-center overflow-hidden bg-gray-900">
       <video
+        ref={videoRef}
         autoPlay
         loop
         muted
         playsInline
-        poster="https://images.pexels.com/videos/3296402/free-video-3296402.jpg?auto=compress&cs=tinysrgb&w=1920"
+        preload="auto"
         className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src="https://videos.pexels.com/video-files/3296402/3296402-hd_1920_1080_25fps.mp4" type="video/mp4" />
-        <source src="https://videos.pexels.com/video-files/3296402/3296402-hd_1280_720_25fps.mp4" type="video/mp4" />
-        <source src="https://videos.pexels.com/video-files/3296402/3296402-sd_640_360_25fps.mp4" type="video/mp4" />
-      </video>
+        src="https://videos.pexels.com/video-files/3296402/3296402-sd_640_360_25fps.mp4"
+      />
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
       <div className="relative z-10 flex items-center justify-center">
