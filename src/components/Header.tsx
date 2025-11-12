@@ -51,9 +51,9 @@ const Header = () => {
             isHomePage && !isScrolled ? 'opacity-0 transform scale-95 -translate-x-4' : 'opacity-100 transform scale-100 translate-x-0'
           }`}>
             <div className="flex items-center space-x-3 group">
-              <img 
-                src="/happy_fryer_transparent.png" 
-                alt="The Happy Fryer Logo" 
+              <img
+                src="/files_5754595-1762927468740-happy_fryer_80.png"
+                alt="The Happy Fryer Logo"
                 className="w-12 h-12 transform group-hover:scale-110 transition-transform duration-500 ease-out"
               />
               <div className="hidden sm:block">
