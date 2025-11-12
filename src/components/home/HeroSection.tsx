@@ -95,7 +95,7 @@ const HeroSection = () => {
         <img
           src="/happy_fryer_transparent.png"
           alt="The Happy Fryer"
-          className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 object-contain transition-transform duration-300 hover:scale-110 cursor-pointer animate-zoom-in"
+          className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 object-contain transition-all duration-300 hover:scale-125 hover:drop-shadow-[0_0_30px_rgba(255,255,255,0.8)] cursor-pointer animate-zoom-in"
         />
       </div>
     </section>
