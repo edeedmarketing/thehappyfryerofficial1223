@@ -42,15 +42,17 @@ const Header = () => {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${headerClasses}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-3">
-          <Link to="/" className="flex items-center space-x-2">
-            <img
-              src="/happy_fryer_80.png"
-              alt="The Happy Fryer"
-              className={`transition-all duration-500 ${shouldBeTransparent ? 'w-10 h-10' : 'w-12 h-12'}`}
-            />
-          </Link>
+          {!shouldBeTransparent && (
+            <Link to="/" className="flex items-center space-x-2">
+              <img
+                src="/happy_fryer_80.png"
+                alt="The Happy Fryer"
+                className="w-12 h-12 transition-all duration-500"
+              />
+            </Link>
+          )}
 
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className={`hidden lg:flex items-center space-x-8 ${shouldBeTransparent ? '' : 'flex-1 ml-8'}`}>
             {navLinks.map((link) => (
               <Link
                 key={link.path}
