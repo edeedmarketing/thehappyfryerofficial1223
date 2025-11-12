@@ -1,45 +1,74 @@
-import { Instagram } from 'lucide-react';
+import React from 'react';
+import { Instagram, Facebook, Heart, MessageCircle } from 'lucide-react';
 
 const SocialFeed = () => {
-  const images = [
-    'https://images.pexels.com/photos/8753591/pexels-photo-8753591.jpeg?auto=compress&cs=tinysrgb&w=400',
-    'https://images.pexels.com/photos/6419720/pexels-photo-6419720.jpeg?auto=compress&cs=tinysrgb&w=400',
-    'https://images.pexels.com/photos/4057665/pexels-photo-4057665.jpeg?auto=compress&cs=tinysrgb&w=400',
-    'https://images.pexels.com/photos/2374946/pexels-photo-2374946.jpeg?auto=compress&cs=tinysrgb&w=400',
+  const photos = [
+    '/487206855_1143864000869639_7595755672422184158_n.jpg',
+    '/491263575_1159282979327741_3962291007238170738_n.jpg',
+    '/494080776_1167569405165765_5182882215927176391_n.jpg',
+    '/482028153_1125931322662907_8155993806392257466_n.jpg',
   ];
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-20 bg-gray-900 text-white">
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">Follow Us on Instagram</h2>
-          <p className="text-gray-600 text-lg mb-4">
-            See what's cooking at The Happy Fryer
-          </p>
-          <a
-            href="https://instagram.com/thehappyfryer"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center space-x-2 text-primary-600 hover:text-primary-700 font-semibold"
-          >
-            <Instagram size={24} />
-            <span>@thehappyfryer</span>
-          </a>
+        <div className="text-center mb-16 relative z-10">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            Follow Our Journey
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-400 to-cyan-400 mx-auto mb-6"></div>
+          <p className="text-xl text-gray-300">Stay connected with our latest updates and delicious creations</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className="aspect-square rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer"
+        <div className="text-center mb-12 relative z-10">
+          <div className="flex justify-center space-x-6">
+            <a
+              href="#"
+              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-full font-semibold hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-lg hover:shadow-xl"
             >
-              <img
-                src={image}
-                alt={`Instagram post ${index + 1}`}
-                className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-              />
-            </div>
-          ))}
+              <Instagram size={20} />
+              <span>Follow on Instagram</span>
+            </a>
+            <a
+              href="#"
+              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-full font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-lg hover:shadow-xl"
+            >
+              <Facebook size={20} />
+              <span>Follow on Facebook</span>
+            </a>
+          </div>
+        </div>
+
+        <div className="relative overflow-hidden mb-12 z-10">
+          <div className="flex animate-scroll-left">
+            {/* First set of photos */}
+            {photos.map((photo, index) => (
+              <div
+                key={`first-${index}`}
+                className="flex-shrink-0 w-48 h-48 mx-2 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-2 border-white/10"
+              >
+                <img
+                  src={photo}
+                  alt={`The Happy Fryer photo ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+            {/* Duplicate set for seamless loop */}
+            {photos.map((photo, index) => (
+              <div
+                key={`second-${index}`}
+                className="flex-shrink-0 w-48 h-48 mx-2 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-2 border-white/10"
+              >
+                <img
+                  src={photo}
+                  alt={`The Happy Fryer photo ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

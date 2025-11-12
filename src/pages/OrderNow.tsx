@@ -1,318 +1,277 @@
-import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Phone, Clock, MapPin, CheckCircle, ExternalLink, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Phone, Clock, MapPin, ExternalLink, Fish } from 'lucide-react';
 
 const OrderNow = () => {
-  const [activeStep, setActiveStep] = useState(1);
-  const [showPopup, setShowPopup] = useState(false);
-  const [hasShownPopup, setHasShownPopup] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [isOpen, setIsOpen] = useState(false);
+  const [nextOpenTime, setNextOpenTime] = useState<Date | null>(null);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveStep((prev) => (prev === 3 ? 1 : prev + 1));
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    if (!hasShownPopup) {
-      const timer = setTimeout(() => {
-        setShowPopup(true);
-        setHasShownPopup(true);
-      }, 30000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [hasShownPopup]);
-
-  const closePopup = () => {
-    setShowPopup(false);
-  };
-  const deliveryPlatforms = [
-    {
-      name: 'Uber Eats',
-      logo: '/uber eats.png',
-      logoType: 'image',
-      color: 'from-green-600 to-green-700',
-      url: 'https://www.ubereats.com/au/store/the-happy-fryer/oDfQuSRiWk2PsV_W4rzZ_g?srsltid=AfmBOoq9EjIpCJRZe4GpMg0EeUgc4b2lP8ahU5soIlZ8HtgrDjIclaC8',
-      description: 'Fast delivery to your door'
-    },
-    {
-      name: 'Menulog',
-      logo: '/menu log logo.png',
-      logoType: 'image',
-      color: 'from-orange-600 to-orange-700',
-      url: 'https://www.menulog.com.au/restaurants-the-happy-fryer/menu',
-      description: 'Easy online ordering'
-    },
-    {
-      name: 'DoorDash',
-      logo: '/doordash.png',
-      logoType: 'image',
-      color: 'from-red-600 to-red-700',
-      url: 'https://www.doordash.com/en-AU/store/the-happy-fryer-daisy-hill-24767212/?srsltid=AfmBOorMRjj1-K96dn2EI8oX43gLudPLSVqM3gJ37gYUpKglRRLz2Awx',
-      description: 'Delivered fresh and hot'
-    }
+  // Opening hours (24-hour format)
+  const openingHours = [
+    { day: 'Monday', open: null, close: null, closed: true },
+    { day: 'Tuesday', open: 11, close: 20, closed: false },
+    { day: 'Wednesday', open: 11, close: 20, closed: false },
+    { day: 'Thursday', open: 11, close: 20, closed: false },
+    { day: 'Friday', open: 11, close: 20, closed: false },
+    { day: 'Saturday', open: 11, close: 20, closed: false },
+    { day: 'Sunday', open: 11, close: 20, closed: false },
   ];
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const now = new Date();
+      setCurrentTime(now);
+      
+      const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+      const currentHour = now.getHours();
+      const currentMinute = now.getMinutes();
+      const currentTimeInMinutes = currentHour * 60 + currentMinute;
+      
+      // Adjust day index to match our array (Monday = 0)
+      const dayIndex = currentDay === 0 ? 6 : currentDay - 1;
+      const todayHours = openingHours[dayIndex];
+      
+      // Check if currently open
+      if (todayHours.closed) {
+        setIsOpen(false);
+      } else {
+        const openTime = todayHours.open! * 60; // Convert to minutes
+        const closeTime = todayHours.close! * 60; // Convert to minutes
+        setIsOpen(currentTimeInMinutes >= openTime && currentTimeInMinutes < closeTime);
+      }
+      
+      // Calculate next opening time
+      if (!isOpen) {
+        let nextOpen = null;
+        
+        // Check if we can open today
+        if (!todayHours.closed) {
+          const openTime = todayHours.open! * 60;
+          if (currentTimeInMinutes < openTime) {
+            nextOpen = new Date(now);
+            nextOpen.setHours(todayHours.open!, 0, 0, 0);
+          }
+        }
+        
+        // If not opening today, find next opening day
+        if (!nextOpen) {
+          for (let i = 1; i <= 7; i++) {
+            const nextDayIndex = (dayIndex + i) % 7;
+            const nextDayHours = openingHours[nextDayIndex];
+            
+            if (!nextDayHours.closed) {
+              nextOpen = new Date(now);
+              nextOpen.setDate(now.getDate() + i);
+              nextOpen.setHours(nextDayHours.open!, 0, 0, 0);
+              break;
+            }
+          }
+        }
+        
+        setNextOpenTime(nextOpen);
+      } else {
+        setNextOpenTime(null);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [isOpen]);
+
+  const formatTime = (hour: number) => {
+    if (hour === 0) return '12 am';
+    if (hour < 12) return `${hour} am`;
+    if (hour === 12) return '12 pm';
+    return `${hour - 12} pm`;
+  };
+
+  const getTimeUntilOpen = () => {
+    if (!nextOpenTime) return '';
+    
+    const now = new Date();
+    const diff = nextOpenTime.getTime() - now.getTime();
+    
+    if (diff <= 0) return '';
+    
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    if (hours > 24) {
+      const days = Math.floor(hours / 24);
+      const remainingHours = hours % 24;
+      return `${days}d ${remainingHours}h ${minutes}m ${seconds}s`;
+    }
+    
+    return `${hours}h ${minutes}m ${seconds}s`;
+  };
+
   return (
-    <>
-      <Helmet>
-        <title>Order Now - The Happy Fryer | Pickup & Delivery via Uber Eats, Menulog, DoorDash</title>
-        <meta name="description" content="Order fresh fish and chips for pickup or delivery in Daisy Hill, Logan. Call (07) 3152 7545 or order online through Uber Eats, Menulog, or DoorDash. Open Tu-Su 11AM-8PM. Quick service guaranteed!" />
-        <meta name="keywords" content="order fish and chips, delivery Daisy Hill, Uber Eats Logan, Menulog, DoorDash, pickup fish and chips, order online, call ahead, quick service" />
-        <link rel="canonical" href="https://thehappyfryer.com/order-now" />
-
-        <meta property="og:title" content="Order Now - The Happy Fryer | Pickup & Delivery" />
-        <meta property="og:description" content="Order fresh fish and chips for pickup or delivery in Daisy Hill, Logan. Call (07) 3152 7545 or order online through Uber Eats, Menulog, or DoorDash." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://thehappyfryer.com/order-now" />
-        <meta property="og:image" content="https://thehappyfryer.com/happy_fryer_transparent.png" />
-        <meta property="og:locale" content="en_AU" />
-
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Order Now - The Happy Fryer | Pickup & Delivery" />
-        <meta name="twitter:description" content="Order fresh fish and chips for pickup or delivery in Daisy Hill, Logan. Call (07) 3152 7545 or order online." />
-        <meta name="twitter:image" content="https://thehappyfryer.com/happy_fryer_transparent.png" />
-      </Helmet>
-      <div className="min-h-screen bg-gray-50 py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">Order Now</h1>
-          <div className="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
-          <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            Fresh, delicious fish and chips ready for pickup. Call us to place your order!
+    <div className="pt-20 min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
+            Order Now
+          </h1>
+          <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Order online for delivery through our trusted partners
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-          <div className="lg:col-span-2 space-y-8">
-            <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl p-10 text-white shadow-2xl">
-              <Phone className="w-16 h-16 mb-6 mx-auto" />
-              <h2 className="text-3xl font-bold mb-4 text-center">Call Us to Order</h2>
-              <p className="text-xl text-blue-100 mb-8 text-center">
-                Speak directly with our team for the fastest service
+        {/* Store Info */}
+        <div className="bg-blue-600 text-white rounded-2xl p-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            <div className="flex items-center justify-center space-x-3">
+              <Phone className="w-6 h-6" />
+              <div>
+                <p className="font-semibold">Call Us</p>
+                <p>(07) 3152 7545</p>
+              </div>
+            </div>
+            <div className="flex items-center justify-center space-x-3">
+              <Clock className="w-6 h-6" />
+              <div>
+                <p className="font-semibold">Status</p>
+                <p className={`font-bold ${isOpen ? 'text-green-300' : 'text-red-300'}`}>
+                  {isOpen ? 'OPEN NOW' : 'CLOSED'}
+                </p>
+                {!isOpen && nextOpenTime && (
+                  <p className="text-sm text-blue-100">
+                    Opens in: {getTimeUntilOpen()}
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="flex items-center justify-center space-x-3">
+              <MapPin className="w-6 h-6" />
+              <div>
+                <p className="font-semibold">Location</p>
+                <p>Shop 9, 3-5 Cupania Street</p>
+                <p>Daisy Hill, QLD, Australia</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Opening Hours */}
+        <div className="bg-white rounded-2xl p-8 shadow-lg mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Opening Hours</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {openingHours.map((day, index) => {
+              const today = new Date().getDay();
+              const dayIndex = today === 0 ? 6 : today - 1;
+              const isToday = index === dayIndex;
+              const isTodayAndOpen = isToday && !day.closed && isOpen;
+              
+              return (
+                <div
+                  key={day.day}
+                  className={`p-4 rounded-lg text-center relative overflow-hidden ${
+                    isToday 
+                      ? 'bg-blue-600 text-white' 
+                      : 'bg-gray-50 text-gray-900'
+                  }`}
+                >
+                  {/* Fish icon and bubbles for current day when open */}
+                  {isTodayAndOpen && (
+                    <>
+                      {/* Fish icon */}
+                      <Fish className="absolute top-2 right-2 w-4 h-4 text-blue-200 animate-pulse" />
+                      
+                      {/* Floating bubbles */}
+                      <div className="absolute top-1 left-2 w-2 h-2 bg-blue-200 rounded-full opacity-60 animate-bounce" style={{ animationDelay: '0s', animationDuration: '2s' }}></div>
+                      <div className="absolute top-3 left-4 w-1.5 h-1.5 bg-blue-300 rounded-full opacity-70 animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}></div>
+                      <div className="absolute top-2 left-6 w-1 h-1 bg-blue-100 rounded-full opacity-80 animate-bounce" style={{ animationDelay: '1s', animationDuration: '3s' }}></div>
+                      <div className="absolute bottom-2 left-1 w-1.5 h-1.5 bg-blue-200 rounded-full opacity-50 animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '2.2s' }}></div>
+                      <div className="absolute bottom-1 left-3 w-1 h-1 bg-blue-300 rounded-full opacity-60 animate-bounce" style={{ animationDelay: '0.8s', animationDuration: '2.8s' }}></div>
+                    </>
+                  )}
+                  
+                  <p className="font-semibold mb-1">{day.day}</p>
+                  <p className={`text-sm ${isToday ? 'text-blue-100' : 'text-gray-600'}`}>
+                    {day.closed 
+                      ? 'Closed' 
+                      : `${formatTime(day.open!)}–${formatTime(day.close!)}`
+                    }
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Delivery Options */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Uber Eats */}
+          <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+            <div className="text-center">
+              <div className="w-24 h-24 mx-auto mb-6 bg-white rounded-2xl flex items-center justify-center p-2">
+                <img 
+                  src="/223-2234004_uber-eats-new-logo.png" 
+                  alt="Uber Eats Logo" 
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Uber Eats</h3>
+              <p className="text-gray-600 mb-6">
+                Get your favorite fish and chips delivered straight to your door
               </p>
               <a
-                href="tel:+61731527545"
-                className="block w-full bg-white text-blue-600 text-center px-8 py-5 rounded-full text-2xl font-bold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-xl"
+                href="https://www.ubereats.com/au/store/the-happy-fryer/oDfQuSRiWk2PsV_W4rzZ_g?srsltid=AfmBOopDv15Lhb-4VEpiA2wPCzlfl4juqqKK7TEKGQd6tF2d4jTaVWTu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-black text-white px-8 py-4 rounded-full font-semibold hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 inline-flex items-center space-x-2"
               >
-                07 3152 7545
+                <span>Order on Uber Eats</span>
+                <ExternalLink className="w-4 h-4" />
               </a>
-              <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <CheckCircle className="w-8 h-8 mx-auto mb-2" />
-                  <p className="font-semibold">Quick Service</p>
-                  <p className="text-sm text-blue-100">Freshly prepared</p>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <CheckCircle className="w-8 h-8 mx-auto mb-2" />
-                  <p className="font-semibold">Fresh Daily</p>
-                  <p className="text-sm text-blue-100">Highest quality</p>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <CheckCircle className="w-8 h-8 mx-auto mb-2" />
-                  <p className="font-semibold">Easy Pickup</p>
-                  <p className="text-sm text-blue-100">At your convenience</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-8 shadow-lg border-2 border-blue-200">
-              <h2 className="text-3xl font-bold text-gray-900 mb-3 text-center">Order Online</h2>
-              <p className="text-gray-600 text-center mb-8">Get your favorite fish and chips delivered straight to your door</p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {deliveryPlatforms.map((platform, index) => (
-                  <a
-                    key={index}
-                    href={platform.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-white/60 backdrop-blur-md rounded-xl p-6 border-2 border-blue-300/50 hover:bg-white/80 hover:border-blue-400 hover:shadow-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer group"
-                  >
-                    <div className="text-center">
-                      {platform.logoType === 'emoji' ? (
-                        <div className="text-5xl mb-4">{platform.logo}</div>
-                      ) : (
-                        <div className="flex justify-center mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                          <img src={platform.logo} alt={platform.name} className="w-32 h-32 object-contain drop-shadow-lg" />
-                        </div>
-                      )}
-                      <div className="flex items-center justify-center space-x-2 text-blue-600 font-bold text-lg group-hover:text-blue-700">
-                        <span>Order Now</span>
-                        <ExternalLink className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </div>
-                  </a>
-                ))}
-              </div>
-              <div className="mt-8 text-center">
-                <Link
-                  to="/menu"
-                  className="inline-block text-blue-600 hover:text-blue-700 font-semibold text-lg"
-                >
-                  View Full Menu →
-                </Link>
-              </div>
-            </div>
-
-            <div className="bg-blue-50 rounded-xl p-8 border-2 border-blue-200">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">How to Order</h3>
-              <div className="space-y-4">
-                <div className="flex items-start space-x-4">
-                  <div className={`bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0 transition-all duration-500 ${activeStep === 1 ? 'shadow-[0_0_20px_rgba(37,99,235,0.8)] scale-110' : ''}`}>
-                    1
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-1">Call Us</h4>
-                    <p className="text-gray-600">Phone 07 3152 7545 and tell us what you'd like</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className={`bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0 transition-all duration-500 ${activeStep === 2 ? 'shadow-[0_0_20px_rgba(37,99,235,0.8)] scale-110' : ''}`}>
-                    2
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-1">We Prepare</h4>
-                    <p className="text-gray-600">Our team will freshly prepare your order</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className={`bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0 transition-all duration-500 ${activeStep === 3 ? 'shadow-[0_0_20px_rgba(37,99,235,0.8)] scale-110' : ''}`}>
-                    3
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-1">Pick Up</h4>
-                    <p className="text-gray-600">Come to our store and enjoy your delicious meal!</p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 
-          <div className="space-y-8">
-            <div className="bg-white rounded-xl p-8 shadow-lg sticky top-24">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Store Information</h3>
-
-              <div className="space-y-6">
-                <div className="flex items-start space-x-3">
-                  <Clock className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">Opening Hours</h4>
-                    <div className="space-y-1 text-sm text-gray-600">
-                      <p>Tuesday - Sunday: 11:00 AM - 8:00 PM</p>
-                      <p className="text-red-600 font-semibold">Monday: CLOSED</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-3">
-                  <MapPin className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">Location</h4>
-                    <p className="text-sm text-gray-600">
-                      6/5 Cupania St<br />
-                      Daisy Hill QLD 4127<br />
-                      Queensland, Australia
-                    </p>
-                    <a
-                      href="https://maps.google.com/?q=6/5+Cupania+St+Daisy+Hill+QLD+4127"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block mt-2 text-blue-600 hover:text-blue-700 font-medium text-sm"
-                    >
-                      Get Directions →
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-3">
-                  <Phone className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">Phone</h4>
-                    <a
-                      href="tel:+61731527545"
-                      className="text-blue-600 hover:text-blue-700 font-medium text-lg"
-                    >
-                      07 3152 7545
-                    </a>
-                  </div>
-                </div>
+          {/* Menulog */}
+          <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+            <div className="text-center">
+              <div className="w-28 h-28 mx-auto mb-6 bg-white rounded-2xl flex items-center justify-center p-2">
+                <img 
+                  src="/ML_Logo_Stacked_RGB.svg.png" 
+                  alt="Menulog Logo" 
+                  className="w-full h-full object-contain"
+                />
               </div>
-
-              <div className="mt-8 pt-8 border-t border-gray-200">
-                <p className="text-sm text-gray-600 text-center">
-                  Pickup only. Cash and card accepted.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-10 text-white text-center shadow-2xl">
-          <h3 className="text-3xl font-bold mb-4">Need Help with Your Order?</h3>
-          <p className="text-xl text-gray-300 mb-8">
-            Our friendly team is here to assist you with menu recommendations, dietary requirements, or any questions.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <a
-              href="tel:+61731527545"
-              className="bg-white text-gray-900 px-8 py-4 rounded-full text-lg font-bold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              Call: 07 3152 7545
-            </a>
-            <Link
-              to="/contact"
-              className="bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              Contact Us
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {showPopup && (
-        <div className="fixed bottom-8 right-8 z-50 animate-in slide-in-from-bottom-4 duration-500">
-          <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl shadow-2xl p-6 max-w-sm border-2 border-blue-500 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-12 -mb-12"></div>
-            <button
-              onClick={closePopup}
-              className="absolute top-3 right-3 text-white/80 hover:text-white transition-colors z-10"
-              aria-label="Close popup"
-            >
-              <X className="w-5 h-5" />
-            </button>
-            <div className="pr-6 relative z-10">
-              <h3 className="text-2xl font-bold text-white mb-2">Order Online Now!</h3>
-              <p className="text-blue-100 mb-4">
-                Get your favorite fish and chips delivered to your door
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Menulog</h3>
+              <p className="text-gray-600 mb-6">
+                Browse our full menu and order for delivery or pickup
               </p>
-              <div className="space-y-2">
-                {deliveryPlatforms.map((platform, index) => (
-                  <a
-                    key={index}
-                    href={platform.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between bg-white text-gray-900 px-4 py-3 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <img src={platform.logo} alt={platform.name} className="w-8 h-8 object-contain" />
-                      <span>{platform.name}</span>
-                    </div>
-                    <ExternalLink className="w-4 h-4 text-blue-600" />
-                  </a>
-                ))}
-              </div>
+              <a
+                href="https://www.menulog.com.au/restaurants-the-happy-fryer/menu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-orange-500 text-white px-8 py-4 rounded-full font-semibold hover:bg-orange-600 transition-all duration-300 transform hover:scale-105 inline-flex items-center space-x-2"
+              >
+                <span>Order on Menulog</span>
+                <ExternalLink className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </div>
-      )}
+
+        {/* Call to Action */}
+        <div className="text-center mt-16 bg-gray-900 text-white rounded-2xl p-12">
+          <h3 className="text-3xl font-bold mb-4">Prefer to Call?</h3>
+          <p className="text-xl text-gray-300 mb-8">
+            Call us directly for pickup orders or any questions
+          </p>
+          <a
+            href="tel:+61731527545"
+            className="bg-blue-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 inline-flex items-center space-x-2"
+          >
+            <Phone className="w-5 h-5" />
+            <span>Call Now: (07) 3152 7545</span>
+          </a>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

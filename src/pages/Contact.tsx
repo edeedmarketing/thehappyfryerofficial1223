@@ -1,27 +1,38 @@
-import React, { useState, lazy, Suspense } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { MapPin, Phone, Mail, Clock, Send, Instagram, Facebook } from 'lucide-react';
-
-const AdvancedMap = lazy(() => import('../components/ui/interactive-map').then(module => ({ default: module.AdvancedMap })));
+import React, { useState } from 'react';
+import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import { AdvancedMap } from '../components/ui/interactive-map';
+import { SocialConnect } from '../components/ui/connect-with-us';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    inquiryType: 'General Inquiry',
+    inquiryType: 'general',
     message: ''
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    const subject = encodeURIComponent(`${formData.inquiryType} - ${formData.name}`);
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\nInquiry Type: ${formData.inquiryType}\n\nMessage:\n${formData.message}`
-    );
-
-    window.location.href = `mailto:thehappyfryer@outlook.com?subject=${subject}&body=${body}`;
+    console.log('Contact form submitted:', formData);
+    alert('Thank you for your message! We\'ll get back to you soon.');
+    setFormData({ name: '', email: '', inquiryType: 'general', message: '' });
   };
+
+  // The Happy Fryer location coordinates (Daisy Hill, QLD)
+  const restaurantLocation: [number, number] = [-27.6275, 153.1280];
+  
+  const mapMarkers = [
+    {
+      id: 'happy-fryer',
+      position: restaurantLocation,
+      color: 'blue',
+      size: 'large' as const,
+      popup: {
+        title: 'The Happy Fryer',
+        content: '6/5 Cupania St, Daisy Hill QLD 4127'
+      }
+    }
+  ];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -31,199 +42,150 @@ const Contact = () => {
   };
 
   return (
-    <>
-      <Helmet>
-        <title>Contact Us - The Happy Fryer | 6/5 Cupania St, Daisy Hill QLD | (07) 3152 7545</title>
-        <meta name="description" content="Visit The Happy Fryer at 6/5 Cupania St, Daisy Hill QLD 4127. Call (07) 3152 7545 or email thehappyfryer@outlook.com. Open Tu-Su 11AM-8PM. Get directions, send us a message, or find us on social media!" />
-        <meta name="keywords" content="contact The Happy Fryer, Daisy Hill address, Logan fish and chips location, phone number, opening hours, email, directions, 6/5 Cupania St" />
-        <link rel="canonical" href="https://thehappyfryer.com/contact" />
-
-        <meta property="og:title" content="Contact Us - The Happy Fryer | Daisy Hill Location" />
-        <meta property="og:description" content="Visit The Happy Fryer at 6/5 Cupania St, Daisy Hill QLD 4127. Call (07) 3152 7545 or email us. Open Tu-Su 11AM-8PM." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://thehappyfryer.com/contact" />
-        <meta property="og:image" content="https://thehappyfryer.com/happy_fryer_transparent.png" />
-        <meta property="og:locale" content="en_AU" />
-
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Contact Us - The Happy Fryer | Daisy Hill Location" />
-        <meta name="twitter:description" content="Visit The Happy Fryer at 6/5 Cupania St, Daisy Hill QLD 4127. Call (07) 3152 7545 or email us." />
-        <meta name="twitter:image" content="https://thehappyfryer.com/happy_fryer_transparent.png" />
-
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "LocalBusiness",
-            "name": "The Happy Fryer",
-            "image": "https://thehappyfryer.com/happy_fryer_transparent.png",
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "6/5 Cupania St",
-              "addressLocality": "Daisy Hill",
-              "addressRegion": "QLD",
-              "postalCode": "4127",
-              "addressCountry": "AU"
-            },
-            "geo": {
-              "@type": "GeoCoordinates",
-              "latitude": -27.643308667400547,
-              "longitude": 153.15409451140613
-            },
-            "telephone": "+61731527545",
-            "email": "thehappyfryer@outlook.com",
-            "openingHoursSpecification": {
-              "@type": "OpeningHoursSpecification",
-              "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-              "opens": "11:00",
-              "closes": "20:00"
-            },
-            "url": "https://thehappyfryer.com"
-          })}
-        </script>
-      </Helmet>
-      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-sky-100 py-24 relative overflow-hidden">
+    <div className="pt-20 min-h-screen bg-gray-50 relative overflow-hidden">
+      {/* Subtle Background Effects */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-24 h-24 rounded-full opacity-30 animate-bubble-float bg-gradient-radial from-blue-200 via-blue-300 to-transparent shadow-lg shadow-blue-400/50"></div>
-        <div className="absolute top-40 left-1/4 w-16 h-16 rounded-full opacity-35 animate-bubble bg-gradient-radial from-blue-100 via-blue-200 to-transparent shadow-lg shadow-blue-300/50" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-32 right-20 w-32 h-32 rounded-full opacity-25 animate-bubble-drift bg-gradient-radial from-blue-300 via-blue-400 to-transparent shadow-lg shadow-blue-500/50" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/3 left-1/3 w-20 h-20 rounded-full opacity-30 animate-bubble bg-gradient-radial from-sky-200 via-sky-300 to-transparent shadow-lg shadow-sky-400/50" style={{ animationDelay: '0.5s' }}></div>
-        <div className="absolute top-1/2 right-1/4 w-28 h-28 rounded-full opacity-30 animate-bubble-float bg-gradient-radial from-blue-200 via-blue-300 to-transparent shadow-lg shadow-blue-400/50" style={{ animationDelay: '1.5s' }}></div>
-        <div className="absolute bottom-1/3 left-16 w-24 h-24 rounded-full opacity-35 animate-bubble-drift bg-gradient-radial from-blue-100 via-blue-200 to-transparent shadow-lg shadow-blue-300/50" style={{ animationDelay: '2.5s' }}></div>
-        <div className="absolute bottom-40 right-32 w-20 h-20 rounded-full opacity-30 animate-bubble bg-gradient-radial from-sky-100 via-sky-200 to-transparent shadow-lg shadow-sky-300/50" style={{ animationDelay: '0.8s' }}></div>
-        <div className="absolute bottom-20 left-1/3 w-18 h-18 rounded-full opacity-25 animate-bubble-float bg-gradient-radial from-blue-200 via-blue-300 to-transparent shadow-lg shadow-blue-400/50" style={{ animationDelay: '1.8s' }}></div>
-        <div className="absolute top-2/3 right-10 w-24 h-24 rounded-full opacity-30 animate-bubble bg-gradient-radial from-blue-300 via-blue-400 to-transparent shadow-lg shadow-blue-500/50" style={{ animationDelay: '2.2s' }}></div>
-        <div className="absolute bottom-1/4 left-1/2 w-26 h-26 rounded-full opacity-35 animate-bubble-drift bg-gradient-radial from-sky-200 via-sky-300 to-transparent shadow-lg shadow-sky-400/50" style={{ animationDelay: '1.2s' }}></div>
-        <div className="absolute top-10 right-1/3 w-20 h-20 rounded-full opacity-30 animate-bubble bg-gradient-radial from-blue-100 via-blue-200 to-transparent shadow-lg shadow-blue-300/50" style={{ animationDelay: '0.3s' }}></div>
-        <div className="absolute bottom-10 right-20 w-22 h-22 rounded-full opacity-30 animate-bubble-float bg-gradient-radial from-sky-100 via-sky-200 to-transparent shadow-lg shadow-sky-300/50" style={{ animationDelay: '2.8s' }}></div>
-
+        {/* Floating Bubbles */}
+        <div className="absolute top-1/4 left-1/6 w-4 h-4 bg-blue-200 rounded-full opacity-20 animate-bounce" style={{ animationDelay: '0s', animationDuration: '6s' }}></div>
+        <div className="absolute top-1/3 right-1/4 w-3 h-3 bg-blue-300 rounded-full opacity-25 animate-bounce" style={{ animationDelay: '2s', animationDuration: '5s' }}></div>
+        <div className="absolute top-2/3 left-1/3 w-5 h-5 bg-blue-100 rounded-full opacity-15 animate-bounce" style={{ animationDelay: '4s', animationDuration: '7s' }}></div>
+        <div className="absolute top-1/5 right-1/3 w-3 h-3 bg-blue-400 rounded-full opacity-30 animate-bounce" style={{ animationDelay: '1s', animationDuration: '6.5s' }}></div>
+        <div className="absolute bottom-1/4 right-1/5 w-2 h-2 bg-blue-300 rounded-full opacity-25 animate-bounce" style={{ animationDelay: '3s', animationDuration: '5.5s' }}></div>
+        <div className="absolute top-3/4 left-1/4 w-4 h-4 bg-blue-200 rounded-full opacity-20 animate-bounce" style={{ animationDelay: '5s', animationDuration: '6.8s' }}></div>
+        
+        {/* Subtle Wave Pattern */}
+        <svg
+          className="absolute top-0 left-0 w-full h-32 opacity-5"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,60 C300,100 600,20 900,60 C1050,80 1150,40 1200,60 L1200,0 L0,0 Z"
+            fill="url(#contact-wave-gradient)"
+          />
+          <defs>
+            <linearGradient id="contact-wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.1" />
+              <stop offset="50%" stopColor="#1D4ED8" stopOpacity="0.2" />
+              <stop offset="100%" stopColor="#1E40AF" stopOpacity="0.1" />
+            </linearGradient>
+          </defs>
+        </svg>
+        
+        {/* Glowing Orbs */}
+        <div className="absolute top-1/6 left-1/5 w-20 h-20 bg-blue-400 rounded-full opacity-3 blur-2xl animate-pulse" style={{ animationDelay: '0s', animationDuration: '8s' }}></div>
+        <div className="absolute bottom-1/4 right-1/3 w-24 h-24 bg-blue-300 rounded-full opacity-4 blur-3xl animate-pulse" style={{ animationDelay: '4s', animationDuration: '10s' }}></div>
+        <div className="absolute top-1/2 left-1/2 w-16 h-16 bg-blue-500 rounded-full opacity-2 blur-xl animate-pulse" style={{ animationDelay: '2s', animationDuration: '9s' }}></div>
+        
+        {/* Subtle Fish Icons */}
         <img
-          src="/fish 4.png"
+          src="/blue-fish-drawing.png"
           alt=""
-          className="absolute top-1/2 right-40 w-8 h-8 opacity-35 animate-swim-medium"
-          style={{ animationDelay: '1.5s' }}
+          className="absolute top-20 right-10 transform w-24 h-24 opacity-5 rotate-12 animate-pulse"
+          style={{ animationDelay: '1s', animationDuration: '8s' }}
         />
         <img
-          src="/fish 4.png"
+          src="/blue-fish-drawing.png"
           alt=""
-          className="absolute top-1/4 right-1/3 w-6 h-6 opacity-30 animate-swim-slow"
-          style={{ animationDelay: '0.5s' }}
+          className="absolute bottom-32 left-16 transform scale-x-[-1] w-20 h-20 opacity-4 -rotate-12 animate-pulse"
+          style={{ animationDelay: '3s', animationDuration: '7s' }}
         />
-        <img
-          src="/fish 4.png"
-          alt=""
-          className="absolute bottom-1/3 right-20 w-7 h-7 opacity-35 animate-swim-fast"
-          style={{ animationDelay: '2s' }}
-        />
-        <img
-          src="/fish 4.png"
-          alt=""
-          className="absolute top-2/3 left-1/3 w-6 h-6 opacity-30 animate-swim-medium"
-          style={{ animationDelay: '1.2s', transform: 'scaleX(-1)' }}
-        />
-
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/40 to-transparent"></div>
       </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">Contact Us</h1>
-          <div className="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Header */}
+        <div className="text-center mb-16 relative z-10">
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
+            Contact Us
+          </h1>
+          <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             We'd love to hear from you. Send us a message and we'll respond as soon as possible.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          <div className="bg-white/90 backdrop-blur-md rounded-xl p-8 shadow-xl border border-blue-200">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Visit Our Shop</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10">
+          {/* Contact Information */}
+          <div>
+            <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-lg mb-8 border border-white/20">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Visit Our Shop</h2>
+              
+              <div className="space-y-6">
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Address</h3>
+                    <p className="text-gray-600">6/5 Cupania St</p>
+                    <p className="text-gray-600">Daisy Hill QLD 4127</p>
+                  </div>
+                </div>
 
-            <div className="space-y-6">
-              <div className="flex items-start space-x-4">
-                <div className="bg-blue-600 text-white p-3 rounded-full flex-shrink-0">
-                  <MapPin className="w-6 h-6" />
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
+                    <a
+                      href="tel:+1234567890"
+                      className="text-blue-600 hover:text-blue-700 transition-colors duration-300"
+                    >
+                      (07) 1234 5678
+                    </a>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Address</h3>
-                  <p className="text-gray-700">
-                    6/5 Cupania St<br />
-                    Daisy Hill QLD 4127
-                  </p>
-                </div>
-              </div>
 
-              <div className="flex items-start space-x-4">
-                <div className="bg-blue-600 text-white p-3 rounded-full flex-shrink-0">
-                  <Phone className="w-6 h-6" />
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
+                    <a
+                      href="mailto:info@thehappyfryer.com"
+                      className="text-blue-600 hover:text-blue-700 transition-colors duration-300"
+                    >
+                      info@thehappyfryer.com
+                    </a>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
-                  <a href="tel:+61731527545" className="text-blue-600 hover:text-blue-700">
-                    (07) 3152 7545
-                  </a>
-                </div>
-              </div>
 
-              <div className="flex items-start space-x-4">
-                <div className="bg-blue-600 text-white p-3 rounded-full flex-shrink-0">
-                  <Mail className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                  <a href="mailto:thehappyfryer@outlook.com" className="text-blue-600 hover:text-blue-700">
-                    thehappyfryer@outlook.com
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="bg-blue-600 text-white p-3 rounded-full flex-shrink-0">
-                  <Clock className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Opening Hours</h3>
-                  <p className="text-gray-700">
-                    Monday - Sunday<br />
-                    11:00 AM - 8:30 PM
-                  </p>
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Opening Hours</h3>
+                    <p className="text-gray-600">Monday - Sunday</p>
+                    <p className="text-gray-600">11:00 AM - 8:30 PM</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-8 bg-white rounded-xl overflow-hidden shadow-md">
-              <Suspense fallback={
-                <div className="h-[300px] flex items-center justify-center bg-gray-100">
-                  <div className="text-gray-500">Loading map...</div>
-                </div>
-              }>
-                <AdvancedMap
-                  center={[-27.643308667400547, 153.15409451140613]}
-                  zoom={16}
-                  markers={[
-                    {
-                      id: 1,
-                      position: [-27.643308667400547, 153.15409451140613],
-                      color: 'blue',
-                      size: 'large',
-                      popup: {
-                        title: 'The Happy Fryer',
-                        content: '6/5 Cupania St, Daisy Hill QLD 4127'
-                      }
-                    }
-                  ]}
-                  enableClustering={false}
-                  enableSearch={false}
-                  enableControls={true}
-                  style={{ height: '300px', width: '100%', borderRadius: '0.75rem' }}
-                />
-              </Suspense>
+            {/* Map Placeholder */}
+            <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-lg overflow-hidden border border-white/20">
+              <AdvancedMap
+                center={restaurantLocation}
+                zoom={15}
+                markers={mapMarkers}
+                enableClustering={false}
+                enableSearch={true}
+                enableControls={true}
+                style={{ height: '300px', width: '100%' }}
+                className="rounded-lg"
+              />
             </div>
           </div>
 
-          <div className="bg-white/90 backdrop-blur-md rounded-xl p-8 shadow-xl border border-blue-200">
+          {/* Contact Form */}
+          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                     Name *
@@ -235,11 +197,11 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                     placeholder="Your name"
                   />
                 </div>
-
+                
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                     Email *
@@ -251,7 +213,7 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                     placeholder="your.email@example.com"
                   />
                 </div>
@@ -266,16 +228,14 @@ const Contact = () => {
                   name="inquiryType"
                   value={formData.inquiryType}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                 >
-                  <option>General Inquiry</option>
-                  <option>Order Question</option>
-                  <option>Catering</option>
-                  <option>Feedback</option>
-                  <option>Other</option>
+                  <option value="general">General Inquiry</option>
+                  <option value="job">Job Application</option>
+                  <option value="other">Other</option>
                 </select>
               </div>
-
+              
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
                   Message *
@@ -283,49 +243,32 @@ const Contact = () => {
                 <textarea
                   id="message"
                   name="message"
+                  rows={6}
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  rows={5}
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   placeholder="Tell us how we can help you..."
-                />
+                ></textarea>
               </div>
-
+              
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-700 transition-all duration-300 flex items-center justify-center space-x-2"
+                className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
               >
                 <Send className="w-5 h-5" />
                 <span>Send Message</span>
               </button>
-            </form>
-
-            <div className="mt-8 pt-8 border-t border-gray-200">
-              <h3 className="text-lg font-bold text-gray-900 mb-3 text-center">Connect With Us</h3>
-              <p className="text-gray-600 text-sm text-center mb-4">Follow us on social media for updates</p>
-              <div className="flex justify-center space-x-4">
-                <a
-                  href="#"
-                  className="bg-blue-100 text-blue-600 p-3 rounded-full hover:bg-blue-200 transition-colors"
-                  aria-label="Instagram"
-                >
-                  <Instagram className="w-6 h-6" />
-                </a>
-                <a
-                  href="#"
-                  className="bg-blue-100 text-blue-600 p-3 rounded-full hover:bg-blue-200 transition-colors"
-                  aria-label="Facebook"
-                >
-                  <Facebook className="w-6 h-6" />
-                </a>
+              
+              {/* Connect With Us Section */}
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <SocialConnect />
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
-      </div>
-    </>
+    </div>
   );
 };
 

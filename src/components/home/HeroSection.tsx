@@ -1,102 +1,52 @@
-import { useEffect, useRef, useState } from 'react';
+import React from 'react';
+import { useState, useEffect } from 'react';
 
 const HeroSection = () => {
-  const video1Ref = useRef<HTMLVideoElement>(null);
-  const video2Ref = useRef<HTMLVideoElement>(null);
-  const video3Ref = useRef<HTMLVideoElement>(null);
-  const [currentVideo, setCurrentVideo] = useState(1);
+  const [currentGifIndex, setCurrentGifIndex] = useState(0);
+  const gifs = [
+    '/918520d9-8ec3-4703-8229-17b6d15b06c9.mp4 (1).gif',
+    '/57772d72-53fb-4f2b-9f43-e20fea6b0c90.mp4 (1).gif'
+  ];
 
   useEffect(() => {
-    const video1 = video1Ref.current;
-    const video2 = video2Ref.current;
-    const video3 = video3Ref.current;
+    const interval = setInterval(() => {
+      setCurrentGifIndex((prevIndex) => (prevIndex + 1) % gifs.length);
+    }, 5000); // Change GIF every 5 seconds
 
-    if (!video1 || !video2 || !video3) return;
-
-    const handleVideo1TimeUpdate = () => {
-      if (video1.currentTime >= 6) {
-        setCurrentVideo(2);
-        video2.play().catch(error => {
-          console.error('Video 2 autoplay failed:', error);
-        });
-      }
-    };
-
-    const handleVideo2TimeUpdate = () => {
-      if (video2.currentTime >= 6) {
-        setCurrentVideo(3);
-        video3.play().catch(error => {
-          console.error('Video 3 autoplay failed:', error);
-        });
-      }
-    };
-
-    const handleVideo3TimeUpdate = () => {
-      if (video3.currentTime >= 6) {
-        setCurrentVideo(1);
-        video1.currentTime = 0;
-        video2.currentTime = 0;
-        video1.play().catch(error => {
-          console.error('Video 1 autoplay failed:', error);
-        });
-      }
-    };
-
-    video1.addEventListener('timeupdate', handleVideo1TimeUpdate);
-    video2.addEventListener('timeupdate', handleVideo2TimeUpdate);
-    video3.addEventListener('timeupdate', handleVideo3TimeUpdate);
-
-    video1.play().catch(error => {
-      console.error('Video 1 autoplay failed:', error);
-    });
-
-    return () => {
-      video1.removeEventListener('timeupdate', handleVideo1TimeUpdate);
-      video2.removeEventListener('timeupdate', handleVideo2TimeUpdate);
-      video3.removeEventListener('timeupdate', handleVideo3TimeUpdate);
-    };
-  }, []);
+    return () => clearInterval(interval);
+  }, [gifs.length]);
 
   return (
-    <section className="relative h-[450px] flex items-center justify-center overflow-hidden bg-gray-900">
-      <video
-        ref={video1Ref}
-        muted
-        playsInline
-        preload="auto"
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-          currentVideo === 1 ? 'opacity-100' : 'opacity-0'
-        }`}
-        src="https://www.pexels.com/download/video/3296402/"
-      />
-      <video
-        ref={video2Ref}
-        muted
-        playsInline
-        preload="auto"
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-          currentVideo === 2 ? 'opacity-100' : 'opacity-0'
-        }`}
-        src="https://www.pexels.com/download/video/8880960/"
-      />
-      <video
-        ref={video3Ref}
-        muted
-        playsInline
-        preload="auto"
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-          currentVideo === 3 ? 'opacity-100' : 'opacity-0'
-        }`}
-        src="https://www.pexels.com/download/video/4131833/"
-      />
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+    <section className="relative h-96 md:h-[500px] flex items-center justify-center overflow-hidden">
+      {/* GIF Background */}
+      <div className="absolute inset-0 z-0">
+        {gifs.map((gif, index) => (
+          <img
+            key={index}
+            src={gif}
+            alt={`The Happy Fryer Background ${index + 1}`}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-3000 ${
+              index === currentGifIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+        ))}
+        
+        {/* Dark overlay for better logo visibility */}
+        <div className="absolute inset-0 bg-black/40"></div>
+        
+        {/* Gradient overlay for depth */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/30"></div>
+      </div>
 
-      <div className="relative z-10 flex items-center justify-center">
-        <img
-          src="/happy_fryer_transparent.png"
-          alt="The Happy Fryer"
-          className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 object-contain transition-all duration-300 hover:scale-125 hover:drop-shadow-[0_0_30px_rgba(255,255,255,0.8)] cursor-pointer animate-zoom-in"
-        />
+      {/* Logo */}
+      <div className="relative z-10 text-center">
+        <div className="transform hover:scale-110 transition-transform duration-500 animate-zoom-in">
+          <img 
+            src="/happy_fryer_transparent.png" 
+            alt="The Happy Fryer Logo" 
+            className="w-32 h-32 md:w-48 md:h-48 mx-auto drop-shadow-2xl"
+          />
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,9 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
-import Layout from './components/layout/Layout';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import BlogNotification from './components/BlogNotification';
+import OrderOnlineNotification from './components/OrderOnlineNotification';
 import Home from './pages/Home';
 import Menu from './pages/Menu';
 import OrderNow from './pages/OrderNow';
@@ -10,20 +13,24 @@ import BlogPost from './pages/BlogPost';
 
 function App() {
   return (
-    <HelmetProvider>
-      <Router>
-        <Layout>
+    <Router>
+      <div className="min-h-screen bg-white">
+        <Header />
+        <BlogNotification />
+        <OrderOnlineNotification />
+        <main>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/menu" element={<Menu />} />
-            <Route path="/order" element={<OrderNow />} />
+            <Route path="/order-now" element={<OrderNow />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
           </Routes>
-        </Layout>
-      </Router>
-    </HelmetProvider>
+        </main>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 

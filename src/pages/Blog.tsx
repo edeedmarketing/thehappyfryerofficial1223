@@ -1,229 +1,221 @@
-import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
-import { User, ArrowRight, Fish } from 'lucide-react';
-
-interface BlogPost {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  featured_image: string;
-  author: string;
-  category: string;
-  published_at: string;
-}
+import { Calendar, User, ArrowRight } from 'lucide-react';
 
 const Blog = () => {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  const fetchPosts = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('blog_posts')
-        .select('*')
-        .eq('is_published', true)
-        .order('published_at', { ascending: false });
-
-      if (error) throw error;
-      setPosts(data || []);
-    } catch (error) {
-      console.error('Error fetching blog posts:', error);
-    } finally {
-      setLoading(false);
+  const blogPosts = [
+    {
+      id: 1,
+      title: 'The Secret to Perfect Fish & Chips',
+      excerpt: 'Discover the techniques and ingredients that make our fish and chips stand out from the rest.',
+      image: '/image copy.png',
+      author: 'The Happy Fryer Team',
+      date: 'August 25, 2025',
+      readTime: '5 min read'
+    },
+    {
+      id: 2,
+      title: 'Community Support: Our Recovery Story',
+      excerpt: 'How the incredible Daisy Hill community helped us bounce back stronger than ever.',
+      image: '/8983f1f7daec00917acb890e42fc03f0.jpg',
+      author: 'The Happy Fryer Team',
+      date: 'August 22, 2025',
+      readTime: '3 min read'
+    },
+    {
+      id: 3,
+      title: 'House-Made Sauces: The Difference is in the Details',
+      excerpt: 'Learn about our commitment to making fresh tartare sauce, gravy, and coleslaw daily.',
+      image: '/istockphoto-492508714-612x612.jpg',
+      author: 'The Happy Fryer Team',
+      date: 'August 19, 2025',
+      readTime: '4 min read'
+    },
+    {
+      id: 4,
+      title: 'Fresh Fish: From Ocean to Your Plate',
+      excerpt: 'Our commitment to sourcing the freshest local seafood for our customers.',
+      image: '/478307183_1110738027515570_3802962707143678618_n.jpg',
+      author: 'The Happy Fryer Team',
+      date: 'August 15, 2025',
+      readTime: '6 min read'
     }
-  };
-
-  const categories = ['all', ...Array.from(new Set(posts.map(post => post.category)))];
-  const filteredPosts = selectedCategory === 'all'
-    ? posts
-    : posts.filter(post => post.category === selectedCategory);
-
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#3b52a3] py-32 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-white mx-auto mb-4"></div>
-          <p className="text-white text-lg">Loading posts...</p>
-        </div>
-      </div>
-    );
-  }
+  ];
 
   return (
-    <>
-      <Helmet>
-        <title>Blog - The Happy Fryer | News, Recipes, Community Stories & Updates</title>
-        <meta name="description" content="Read the latest news, recipes, and stories from The Happy Fryer. Behind-the-scenes insights, community updates, and delicious seafood tips from Daisy Hill's favorite fish and chips shop!" />
-        <meta name="keywords" content="fish and chips blog, seafood recipes, The Happy Fryer news, Daisy Hill community, restaurant updates, cooking tips, fish recipes, behind the scenes" />
-        <link rel="canonical" href="https://thehappyfryer.com/blog" />
-
-        <meta property="og:title" content="Blog - The Happy Fryer | News, Recipes & Community Stories" />
-        <meta property="og:description" content="Read the latest news, recipes, and stories from The Happy Fryer. Behind-the-scenes insights, community updates, and delicious seafood tips!" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://thehappyfryer.com/blog" />
-        <meta property="og:image" content="https://thehappyfryer.com/happy_fryer_transparent.png" />
-        <meta property="og:locale" content="en_AU" />
-
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Blog - The Happy Fryer | News, Recipes & Community Stories" />
-        <meta name="twitter:description" content="Read the latest news, recipes, and stories from The Happy Fryer. Behind-the-scenes insights and community updates!" />
-        <meta name="twitter:image" content="https://thehappyfryer.com/happy_fryer_transparent.png" />
-      </Helmet>
-      <div className="min-h-screen bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#3b52a3] py-24 relative overflow-hidden">
+    <div className="pt-20 min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+      {/* Enhanced Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => {
-          const size = Math.random() * 80 + 30;
-          const animations = ['animate-bubble-rise', 'animate-bubble-rise-slow', 'animate-bubble-rise-fast'];
-          const animation = animations[Math.floor(Math.random() * animations.length)];
-          return (
-            <div
-              key={i}
-              className={`absolute rounded-full border-2 border-white/30 ${animation}`}
-              style={{
-                width: `${size}px`,
-                height: `${size}px`,
-                left: `${Math.random() * 100}%`,
-                bottom: `-${size}px`,
-                animationDelay: `${Math.random() * 8}s`,
-              }}
-            />
-          );
-        })}
+        {/* Floating Fish */}
+        <img
+          src="/blue-fish-drawing.png"
+          alt=""
+          className="absolute top-20 left-10 transform w-32 h-32 opacity-10 rotate-45 animate-pulse"
+        />
+        <img
+          src="/blue-fish-drawing.png"
+          alt=""
+          className="absolute top-1/3 right-20 transform scale-x-[-1] w-48 h-48 opacity-5 rotate-12 animate-pulse"
+          style={{ animationDelay: '2s' }}
+        />
+        <img
+          src="/blue-fish-drawing.png"
+          alt=""
+          className="absolute bottom-20 left-1/4 transform w-40 h-40 opacity-8 -rotate-30 animate-pulse"
+          style={{ animationDelay: '4s' }}
+        />
+        <img
+          src="/blue-fish-drawing.png"
+          alt=""
+          className="absolute top-1/6 left-1/5 transform w-36 h-36 opacity-12 rotate-45 animate-pulse"
+          style={{ animationDelay: '1s' }}
+        />
+        
+        {/* Animated Waves */}
+        <svg
+          className="absolute top-0 left-0 w-full h-40 opacity-20"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,60 C300,120 600,0 900,60 C1050,90 1150,30 1200,60 L1200,0 L0,0 Z"
+            fill="url(#wave-gradient-1)"
+          />
+          <defs>
+            <linearGradient id="wave-gradient-1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.3" />
+              <stop offset="50%" stopColor="#1D4ED8" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="#1E40AF" stopOpacity="0.3" />
+            </linearGradient>
+          </defs>
+        </svg>
+        
+        <svg
+          className="absolute bottom-0 right-0 w-full h-32 opacity-15 transform rotate-180"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,60 C200,100 400,20 600,60 C800,100 1000,20 1200,60 L1200,120 L0,120 Z"
+            fill="url(#wave-gradient-2)"
+          />
+          <defs>
+            <linearGradient id="wave-gradient-2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#1E40AF" stopOpacity="0.4" />
+              <stop offset="50%" stopColor="#3730A3" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="#312E81" stopOpacity="0.4" />
+            </linearGradient>
+          </defs>
+        </svg>
+        
+        {/* Floating Bubbles */}
+        <div className="absolute top-1/4 left-1/6 w-6 h-6 bg-blue-400 rounded-full opacity-20 animate-bounce" style={{ animationDelay: '0s', animationDuration: '4s' }}></div>
+        <div className="absolute top-1/3 right-1/4 w-4 h-4 bg-cyan-300 rounded-full opacity-30 animate-bounce" style={{ animationDelay: '1s', animationDuration: '3.5s' }}></div>
+        <div className="absolute top-2/3 left-1/3 w-8 h-8 bg-blue-300 rounded-full opacity-15 animate-bounce" style={{ animationDelay: '2s', animationDuration: '4.5s' }}></div>
+        <div className="absolute top-1/5 right-1/3 w-5 h-5 bg-indigo-400 rounded-full opacity-25 animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '3.8s' }}></div>
+        <div className="absolute bottom-1/4 right-1/5 w-3 h-3 bg-blue-500 rounded-full opacity-20 animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '4.2s' }}></div>
+        <div className="absolute top-3/4 left-1/4 w-7 h-7 bg-cyan-400 rounded-full opacity-10 animate-bounce" style={{ animationDelay: '2.5s', animationDuration: '5s' }}></div>
+        <div className="absolute top-1/2 right-1/6 w-4 h-4 bg-blue-200 rounded-full opacity-35 animate-bounce" style={{ animationDelay: '0.8s', animationDuration: '3.2s' }}></div>
+        <div className="absolute bottom-1/3 left-2/5 w-3 h-3 bg-indigo-300 rounded-full opacity-40 animate-bounce" style={{ animationDelay: '1.8s', animationDuration: '4.8s' }}></div>
+        
+        {/* Glowing Orbs */}
+        <div className="absolute top-1/6 left-1/5 w-16 h-16 bg-blue-500 rounded-full opacity-5 blur-xl animate-pulse" style={{ animationDelay: '0s', animationDuration: '6s' }}></div>
+        <div className="absolute bottom-1/4 right-1/3 w-20 h-20 bg-cyan-400 rounded-full opacity-8 blur-2xl animate-pulse" style={{ animationDelay: '3s', animationDuration: '8s' }}></div>
+        <div className="absolute top-1/2 left-1/2 w-24 h-24 bg-indigo-600 rounded-full opacity-3 blur-3xl animate-pulse" style={{ animationDelay: '1.5s', animationDuration: '7s' }}></div>
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-white mb-4">Our Blog</h1>
-          <div className="w-20 h-1 bg-white mx-auto mb-6"></div>
-          <p className="text-xl text-white/90 max-w-3xl mx-auto">
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Header */}
+        <div className="text-center mb-16 relative z-10">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
+            Our Blog
+          </h1>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-400 to-cyan-400 mx-auto mb-6"></div>
+          <p className="text-xl text-blue-100 max-w-2xl mx-auto">
             Stories from our kitchen, community updates, and behind-the-scenes insights
           </p>
         </div>
 
-        {posts.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="max-w-2xl mx-auto bg-white rounded-xl p-12 shadow-lg">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Coming Soon!</h2>
-              <p className="text-lg text-gray-600 mb-8">
-                We're working on exciting content for you. Check back soon for news, recipes, and more!
-              </p>
+        {/* Featured Post */}
+        <div className="mb-16 relative z-10">
+          <div className="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
+            <div className="md:flex">
+              <div className="md:w-1/2">
+                <img
+                  src={blogPosts[0].image}
+                  alt={blogPosts[0].title}
+                  className="w-full h-64 md:h-full object-cover"
+                />
+              </div>
+              <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">
+                  <div className="flex items-center space-x-1">
+                    <User className="w-4 h-4" />
+                    <span>{blogPosts[0].author}</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Calendar className="w-4 h-4" />
+                    <span>{blogPosts[0].date}</span>
+                  </div>
+                  <span>{blogPosts[0].readTime}</span>
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                  {blogPosts[0].title}
+                </h2>
+                <p className="text-gray-600 mb-6 text-lg">
+                  {blogPosts[0].excerpt}
+                </p>
+                <Link
+                  to={`/blog/${blogPosts[0].id}`}
+                  className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 inline-flex items-center space-x-2 self-start"
+                >
+                  <span>Read More</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
             </div>
           </div>
-        ) : (
-          <>
-            <div className="mb-8 flex flex-wrap justify-center gap-3">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 capitalize ${
-                    selectedCategory === category
-                      ? 'bg-white text-blue-900 shadow-lg scale-105'
-                      : 'bg-white/20 text-white hover:bg-white/30 shadow backdrop-blur-sm'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
+        </div>
 
-            <div className="space-y-8">
-              {filteredPosts.slice(0, 1).map((post) => (
-                <Link
-                  key={post.id}
-                  to={`/blog/${post.slug}`}
-                  className="block bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-1 group border-2 border-blue-200"
-                >
-                  <div className="md:flex">
-                    {post.featured_image && (
-                      <div className="relative overflow-hidden md:w-1/2 h-96 md:h-auto">
-                        <img
-                          src={post.featured_image}
-                          alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                        <div className="absolute top-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
-                          Featured Post
-                        </div>
-                      </div>
-                    )}
-                    <div className="md:w-1/2 p-8 md:p-12">
-                      <div className="flex items-center space-x-4 text-sm text-gray-600 mb-3">
-                        <div className="flex items-center space-x-1">
-                          <Fish className="w-4 h-4 text-blue-600" />
-                          <User className="w-4 h-4" />
-                          <span>{post.author}</span>
-                        </div>
-                      </div>
-                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
-                        {post.title}
-                      </h2>
-                      <p className="text-lg text-gray-600 mb-6 line-clamp-4">
-                        {post.excerpt}
-                      </p>
-                      <div className="flex items-center text-blue-600 text-lg font-semibold group-hover:text-blue-700">
-                        <span>Read More</span>
-                        <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" />
-                      </div>
-                    </div>
+        {/* Blog Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+          {blogPosts.slice(1).map((post) => (
+            <article
+              key={post.id}
+              className="bg-white/95 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-white/20"
+            >
+              <img
+                src={post.image}
+                alt={post.title}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-6">
+                <div className="flex items-center space-x-4 text-sm text-gray-500 mb-3">
+                  <div className="flex items-center space-x-1">
+                    <Calendar className="w-4 h-4" />
+                    <span>{post.date}</span>
                   </div>
+                  <span>{post.readTime}</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-blue-600 transition-colors duration-300">
+                  {post.title}
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  {post.excerpt}
+                </p>
+                <Link
+                  to={`/blog/${post.id}`}
+                  className="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-300 inline-flex items-center space-x-1"
+                >
+                  <span>Read More</span>
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
-              ))}
-            </div>
-
-            {filteredPosts.length > 1 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-                {filteredPosts.slice(1).map((post) => (
-                  <Link
-                    key={post.id}
-                    to={`/blog/${post.slug}`}
-                    className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group"
-                  >
-                    {post.featured_image && (
-                      <div className="relative h-56 overflow-hidden">
-                        <img
-                          src={post.featured_image}
-                          alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                      </div>
-                    )}
-                    <div className="p-6">
-                      <div className="flex items-center space-x-4 text-sm text-gray-600 mb-3">
-                        <div className="flex items-center space-x-1">
-                          <Fish className="w-4 h-4 text-blue-600" />
-                          <User className="w-4 h-4" />
-                          <span>{post.author}</span>
-                        </div>
-                      </div>
-                      <h2 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
-                        {post.title}
-                      </h2>
-                      <p className="text-gray-600 mb-6 line-clamp-3">
-                        {post.excerpt}
-                      </p>
-                      <div className="flex items-center text-blue-600 font-semibold group-hover:text-blue-700">
-                        <span>Read More</span>
-                        <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" />
-                      </div>
-                    </div>
-                  </Link>
-                ))}
               </div>
-            )}
-          </>
-        )}
+            </article>
+          ))}
+        </div>
       </div>
-      </div>
-    </>
+    </div>
   );
 };
 
