@@ -59,7 +59,7 @@ const Header = () => {
                 to={link.path}
                 className={`relative text-lg font-medium transition-all duration-300 group ${
                   isActive(link.path)
-                    ? shouldBeTransparent ? 'text-white' : 'text-blue-600'
+                    ? 'text-blue-600'
                     : `${textClasses} hover:text-blue-600`
                 }`}
               >
@@ -67,8 +67,8 @@ const Header = () => {
                 <span
                   className={`absolute left-0 right-0 bottom-0 h-0.5 transition-all duration-300 ${
                     isActive(link.path)
-                      ? shouldBeTransparent ? 'bg-white translate-y-1' : 'bg-blue-600 translate-y-1'
-                      : shouldBeTransparent ? 'bg-white translate-y-0 opacity-0 group-hover:translate-y-1 group-hover:opacity-100' : 'bg-blue-600 translate-y-0 opacity-0 group-hover:translate-y-1 group-hover:opacity-100'
+                      ? 'bg-blue-600 translate-y-1'
+                      : 'bg-blue-600 translate-y-0 opacity-0 group-hover:translate-y-1 group-hover:opacity-100'
                   }`}
                 />
               </Link>
