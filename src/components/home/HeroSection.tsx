@@ -1,14 +1,16 @@
 const HeroSection = () => {
   return (
     <section className="relative h-[450px] flex items-center justify-center overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: 'url(https://images.pexels.com/photos/8753591/pexels-photo-8753591.jpeg?auto=compress&cs=tinysrgb&w=1920)',
-        }}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
       >
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-      </div>
+        <source src="https://videos.pexels.com/video-files/3296399/3296399-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+      </video>
+      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
       <div className="relative z-10 flex items-center justify-center">
         <img
