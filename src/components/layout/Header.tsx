@@ -42,12 +42,13 @@ const Header = () => {
       <div className={`${shouldBeTransparent ? 'w-full px-4 sm:px-6 lg:px-8' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}`}>
         <div className="flex items-center justify-between py-3">
           {!shouldBeTransparent && (
-            <Link to="/" className="flex items-center space-x-2">
+            <Link to="/" className="flex items-center space-x-3">
               <img
                 src="/happy_fryer_80.png"
                 alt="The Happy Fryer"
                 className="w-12 h-12 transition-all duration-500"
               />
+              <span className="text-xl font-bold text-gray-800">The Happy Fryer</span>
             </Link>
           )}
 
