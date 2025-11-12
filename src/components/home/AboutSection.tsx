@@ -69,11 +69,24 @@ const AboutSection = () => {
             <path d="M35 25 L38 30 L40 25 Z"/>
           </svg>
         </div>
+        <div className="fish-float absolute top-60 right-1/3 text-blue-400 opacity-25" style={{ animationDelay: '1s' }}>
+          <Waves size={40} className="text-blue-500" strokeWidth={2} />
+        </div>
+        <div className="fish-float-reverse absolute bottom-24 right-16 text-blue-300 opacity-30" style={{ animationDelay: '3s' }}>
+          <Waves size={35} className="text-blue-400" strokeWidth={2} />
+        </div>
+        <div className="fish-float absolute top-1/2 left-16 text-blue-500 opacity-20" style={{ animationDelay: '5s' }}>
+          <Waves size={45} className="text-blue-600" strokeWidth={2} />
+        </div>
+        <div className="fish-float-reverse absolute top-96 left-1/3 text-blue-400 opacity-25" style={{ animationDelay: '6s' }}>
+          <Waves size={38} className="text-blue-500" strokeWidth={2} />
+        </div>
         <div className="bubble-float absolute top-32 left-1/3 w-3 h-3 bg-blue-200 rounded-full opacity-40"></div>
         <div className="bubble-float absolute top-60 right-1/4 w-4 h-4 bg-blue-300 rounded-full opacity-30" style={{ animationDelay: '1s' }}></div>
         <div className="bubble-float absolute bottom-20 left-1/2 w-2 h-2 bg-blue-200 rounded-full opacity-50" style={{ animationDelay: '3s' }}></div>
         <div className="bubble-float absolute top-96 right-1/3 w-3 h-3 bg-blue-300 rounded-full opacity-35" style={{ animationDelay: '2.5s' }}></div>
         <div className="bubble-float absolute bottom-40 right-10 w-4 h-4 bg-blue-200 rounded-full opacity-40" style={{ animationDelay: '1.5s' }}></div>
+        <div className="bubble-float absolute top-44 left-1/4 w-2.5 h-2.5 bg-blue-200 rounded-full opacity-45" style={{ animationDelay: '4s' }}></div>
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <h2 className="text-4xl font-bold mb-12 text-center">
