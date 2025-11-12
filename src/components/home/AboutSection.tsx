@@ -1,8 +1,10 @@
 import { Heart, Award, Waves } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const AboutSection = () => {
   const [currentImage, setCurrentImage] = useState(0);
+  const [isLineVisible, setIsLineVisible] = useState(false);
+  const lineRef = useRef<HTMLDivElement>(null);
   const images = [
     '/IMG_5894.jpeg',
     '/IMG_5895 (1).jpeg'
@@ -16,12 +18,38 @@ const AboutSection = () => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsLineVisible(true);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (lineRef.current) {
+      observer.observe(lineRef.current);
+    }
+
+    return () => {
+      if (lineRef.current) {
+        observer.unobserve(lineRef.current);
+      }
+    };
+  }, []);
+
   return (
     <section className="py-16 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-4xl font-bold mb-12 text-center">
           Our Story
-          <div className="w-16 h-1 bg-blue-500 mx-auto mt-3"></div>
+          <div
+            ref={lineRef}
+            className={`h-1 bg-blue-500 mx-auto mt-3 transition-all duration-1000 ease-out ${
+              isLineVisible ? 'w-16' : 'w-0'
+            }`}
+          ></div>
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
