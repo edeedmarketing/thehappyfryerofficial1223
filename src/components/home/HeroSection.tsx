@@ -1,19 +1,26 @@
 const HeroSection = () => {
   return (
     <section className="relative h-[450px] flex items-center justify-center overflow-hidden bg-gray-900">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        className="absolute inset-0 w-full h-full object-cover"
-        onError={(e) => console.error('Video failed to load:', e)}
+      <div
+        className="absolute inset-0 w-full h-full bg-cover bg-center"
+        style={{
+          backgroundImage: "url('https://images.pexels.com/photos/1251198/pexels-photo-1251198.jpeg?auto=compress&cs=tinysrgb&w=1920')"
+        }}
       >
-        <source src="https://videos.pexels.com/video-files/3296399/3296399-hd_1920_1080_25fps.mp4" type="video/mp4" />
-        <source src="https://videos.pexels.com/video-files/3296399/3296399-sd_640_360_25fps.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          poster="https://images.pexels.com/photos/1251198/pexels-photo-1251198.jpeg?auto=compress&cs=tinysrgb&w=1920"
+          className="w-full h-full object-cover"
+          crossOrigin="anonymous"
+        >
+          <source src="https://videos.pexels.com/video-files/3296399/3296399-sd_640_360_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/3296399/3296399-hd_1280_720_25fps.mp4" type="video/mp4" />
+        </video>
+      </div>
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
       <div className="relative z-10 flex items-center justify-center">
