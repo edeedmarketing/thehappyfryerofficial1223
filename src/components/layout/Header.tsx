@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ShoppingBag, Instagram, Facebook } from 'lucide-react';
+import { Menu, X, Phone, Instagram, Facebook } from 'lucide-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -98,7 +98,7 @@ const Header = () => {
               to="/order"
               className={`flex items-center space-x-2 ${buttonClasses} text-white px-6 py-2.5 rounded-full text-base font-medium hover:bg-blue-700 hover:scale-110 transition-all duration-300`}
             >
-              <ShoppingBag size={18} />
+              <Phone size={18} />
               <span>Order Now</span>
             </Link>
           </div>
@@ -134,7 +134,7 @@ const Header = () => {
                 onClick={() => setIsMenuOpen(false)}
                 className="flex items-center justify-center space-x-2 bg-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-blue-700 transition-colors"
               >
-                <ShoppingBag size={16} />
+                <Phone size={16} />
                 <span>Order Now</span>
               </Link>
             </nav>
