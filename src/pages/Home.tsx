@@ -1,4 +1,3 @@
-import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import HeroSection from '../components/home/HeroSection';
 import InfoSection from '../components/home/InfoSection';
