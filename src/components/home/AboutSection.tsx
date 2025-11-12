@@ -1,4 +1,4 @@
-import { Fish, Heart, Award } from 'lucide-react';
+import { Heart, Award, Waves } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const AboutSection = () => {
@@ -66,8 +66,13 @@ const AboutSection = () => {
             <div className="grid grid-cols-3 gap-6">
               <div className="text-center">
                 <div className="flex justify-center mb-3">
-                  <div className="bg-blue-100 p-4 rounded-full w-16 h-16 flex items-center justify-center">
-                    <Fish size={28} className="text-blue-600" strokeWidth={2} />
+                  <div className="relative">
+                    <div className="bg-blue-100 p-4 rounded-full w-16 h-16 flex items-center justify-center">
+                      <Waves size={28} className="text-blue-600" strokeWidth={2} />
+                    </div>
+                    <div className="absolute -top-1 -right-1 w-2 h-2 bg-blue-200 rounded-full"></div>
+                    <div className="absolute top-1 -left-2 w-1.5 h-1.5 bg-blue-200 rounded-full"></div>
+                    <div className="absolute -bottom-1 left-2 w-1.5 h-1.5 bg-blue-200 rounded-full"></div>
                   </div>
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-1 text-base">Fresh Daily</h3>
