@@ -57,7 +57,7 @@ const Header = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm font-medium transition-colors duration-500 ${
+                className={`text-base font-medium transition-colors duration-500 ${
                   isActive(link.path)
                     ? activeClasses
                     : `${textClasses} hover:text-blue-600`
