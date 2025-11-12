@@ -43,18 +43,30 @@ const AboutSection = () => {
     <section className="py-16 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="fish-float absolute top-20 left-10 text-blue-400 opacity-30">
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="currentColor">
-            <path d="M35 20c0-3-2-5-5-5-1 0-2 .5-3 1-1-4-4-7-8-7s-7 3-8 7c-1-.5-2-1-3-1-3 0-5 2-5 5s2 5 5 5c1 0 2-.5 3-1 1 4 4 7 8 7s7-3 8-7c1 .5 2 1 3 1 3 0 5-2 5-5zm-16 5c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z"/>
+          <svg width="60" height="30" viewBox="0 0 60 30" fill="currentColor">
+            <ellipse cx="35" cy="15" rx="20" ry="12"/>
+            <path d="M15 15 L0 5 L5 15 L0 25 Z"/>
+            <circle cx="45" cy="12" r="2" fill="white"/>
+            <path d="M35 5 L38 0 L40 5 Z"/>
+            <path d="M35 25 L38 30 L40 25 Z"/>
           </svg>
         </div>
         <div className="fish-float-reverse absolute top-40 right-20 text-blue-300 opacity-20" style={{ animationDelay: '2s' }}>
-          <svg width="50" height="50" viewBox="0 0 40 40" fill="currentColor">
-            <path d="M35 20c0-3-2-5-5-5-1 0-2 .5-3 1-1-4-4-7-8-7s-7 3-8 7c-1-.5-2-1-3-1-3 0-5 2-5 5s2 5 5 5c1 0 2-.5 3-1 1 4 4 7 8 7s7-3 8-7c1 .5 2 1 3 1 3 0 5-2 5-5zm-16 5c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z"/>
+          <svg width="70" height="35" viewBox="0 0 60 30" fill="currentColor">
+            <ellipse cx="35" cy="15" rx="20" ry="12"/>
+            <path d="M15 15 L0 5 L5 15 L0 25 Z"/>
+            <circle cx="45" cy="12" r="2" fill="white"/>
+            <path d="M35 5 L38 0 L40 5 Z"/>
+            <path d="M35 25 L38 30 L40 25 Z"/>
           </svg>
         </div>
         <div className="fish-float absolute bottom-32 left-1/4 text-blue-500 opacity-25" style={{ animationDelay: '4s' }}>
-          <svg width="35" height="35" viewBox="0 0 40 40" fill="currentColor">
-            <path d="M35 20c0-3-2-5-5-5-1 0-2 .5-3 1-1-4-4-7-8-7s-7 3-8 7c-1-.5-2-1-3-1-3 0-5 2-5 5s2 5 5 5c1 0 2-.5 3-1 1 4 4 7 8 7s7-3 8-7c1 .5 2 1 3 1 3 0 5-2 5-5zm-16 5c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z"/>
+          <svg width="50" height="25" viewBox="0 0 60 30" fill="currentColor">
+            <ellipse cx="35" cy="15" rx="20" ry="12"/>
+            <path d="M15 15 L0 5 L5 15 L0 25 Z"/>
+            <circle cx="45" cy="12" r="2" fill="white"/>
+            <path d="M35 5 L38 0 L40 5 Z"/>
+            <path d="M35 25 L38 30 L40 25 Z"/>
           </svg>
         </div>
         <div className="bubble-float absolute top-32 left-1/3 w-3 h-3 bg-blue-200 rounded-full opacity-40"></div>
