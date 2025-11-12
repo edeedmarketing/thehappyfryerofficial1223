@@ -59,16 +59,16 @@ const Header = () => {
                 to={link.path}
                 className={`relative text-lg font-medium transition-all duration-300 group ${
                   isActive(link.path)
-                    ? 'text-blue-600'
-                    : `${textClasses} hover:text-blue-600`
+                    ? 'text-blue-500'
+                    : `${textClasses} hover:text-blue-500`
                 }`}
               >
                 {link.label}
                 <span
                   className={`absolute left-0 right-0 bottom-0 h-0.5 transition-all duration-300 ${
                     isActive(link.path)
-                      ? 'bg-blue-600 translate-y-1'
-                      : 'bg-blue-600 translate-y-0 opacity-0 group-hover:translate-y-1 group-hover:opacity-100'
+                      ? 'bg-blue-500 translate-y-1 scale-x-100'
+                      : 'bg-blue-500 translate-y-1 opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100'
                   }`}
                 />
               </Link>
@@ -80,7 +80,7 @@ const Header = () => {
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-2 transition-colors duration-500 ${textClasses} ${shouldBeTransparent ? 'hover:text-white/80' : 'hover:text-blue-600'}`}
+              className={`p-2 transition-colors duration-500 ${textClasses} ${shouldBeTransparent ? 'hover:text-white/80' : 'hover:text-blue-500'}`}
               aria-label="Instagram"
             >
               <Instagram size={22} />
@@ -89,7 +89,7 @@ const Header = () => {
               href="https://facebook.com"
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-2 transition-colors duration-500 ${textClasses} ${shouldBeTransparent ? 'hover:text-white/80' : 'hover:text-blue-600'}`}
+              className={`p-2 transition-colors duration-500 ${textClasses} ${shouldBeTransparent ? 'hover:text-white/80' : 'hover:text-blue-500'}`}
               aria-label="Facebook"
             >
               <Facebook size={22} />
@@ -122,8 +122,8 @@ const Header = () => {
                   onClick={() => setIsMenuOpen(false)}
                   className={`font-medium transition-colors ${
                     isActive(link.path)
-                      ? 'text-blue-600'
-                      : 'text-gray-700 hover:text-blue-600'
+                      ? 'text-blue-500'
+                      : 'text-gray-700 hover:text-blue-500'
                   }`}
                 >
                   {link.label}
