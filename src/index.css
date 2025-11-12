@@ -33,4 +33,19 @@
   .animate-fadeIn {
     animation: fadeIn 0.5s ease-out forwards;
   }
+
+  @keyframes zoomIn {
+    from {
+      transform: scale(3);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .animate-zoom-in {
+    animation: zoomIn 1.2s ease-out forwards;
+  }
 }
