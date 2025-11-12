@@ -5,12 +5,15 @@ const HeroSection = () => {
     <section className="relative h-96 md:h-[500px] flex items-center justify-center overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
-        <iframe
-          src="https://player.vimeo.com/video/380516884?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-          style={{ width: '100vw', height: '100vh', border: 'none' }}
-          allow="autoplay; fullscreen"
-        ></iframe>
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="https://www.pexels.com/download/video/3296402/" type="video/mp4" />
+        </video>
 
         {/* Dark overlay for better logo visibility */}
         <div className="absolute inset-0 bg-black/40"></div>
