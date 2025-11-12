@@ -30,7 +30,6 @@ const Header = () => {
 
   const shouldBeTransparent = isHomePage && !isScrolled;
 
-  const headerPositionClasses = shouldBeTransparent ? 'absolute' : 'sticky';
   const headerClasses = shouldBeTransparent
     ? 'bg-transparent shadow-none'
     : 'bg-white shadow-md';
@@ -41,11 +40,11 @@ const Header = () => {
   const mobileMenuClasses = shouldBeTransparent ? 'bg-white/95 backdrop-blur-sm' : 'bg-white';
 
   return (
-    <header className={`${headerPositionClasses} top-0 left-0 right-0 z-50 transition-all duration-300 ${headerClasses}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${headerClasses}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <Link to="/" className="flex items-center space-x-2">
-            <div className={`text-2xl font-bold transition-colors ${logoClasses}`}>
+            <div className={`text-2xl font-bold transition-colors duration-500 ${logoClasses}`}>
               The Happy Fryer
             </div>
           </Link>
@@ -55,7 +54,7 @@ const Header = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-medium transition-colors ${
+                className={`font-medium transition-colors duration-500 ${
                   isActive(link.path)
                     ? activeClasses
                     : `${textClasses} hover:text-primary-600`
@@ -74,7 +73,7 @@ const Header = () => {
           </nav>
 
           <button
-            className={`md:hidden p-2 ${textClasses}`}
+            className={`md:hidden p-2 transition-colors duration-500 ${textClasses}`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
