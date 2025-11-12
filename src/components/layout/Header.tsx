@@ -96,7 +96,7 @@ const Header = () => {
             </a>
             <Link
               to="/order"
-              className={`flex items-center space-x-2 ${buttonClasses} text-white px-6 py-2.5 rounded-full text-base font-medium hover:bg-blue-700 transition-colors`}
+              className={`flex items-center space-x-2 ${buttonClasses} text-white px-6 py-2.5 rounded-full text-base font-medium hover:bg-blue-700 hover:scale-110 transition-all duration-300`}
             >
               <ShoppingBag size={18} />
               <span>Order Now</span>
