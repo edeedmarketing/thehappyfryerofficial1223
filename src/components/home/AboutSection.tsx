@@ -1,6 +1,21 @@
 import { Fish, Heart, Award } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const AboutSection = () => {
+  const [currentImage, setCurrentImage] = useState(0);
+  const images = [
+    '/IMG_5894.jpeg',
+    '/IMG_5895 (1).jpeg'
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % images.length);
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="py-16 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,12 +50,17 @@ const AboutSection = () => {
           </div>
 
           <div className="space-y-6">
-            <div className="relative rounded-lg overflow-hidden shadow-xl">
-              <img
-                src="https://images.pexels.com/photos/6419720/pexels-photo-6419720.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="The Happy Fryer storefront"
-                className="w-full h-auto object-cover"
-              />
+            <div className="relative rounded-lg overflow-hidden shadow-xl h-[400px]">
+              {images.map((image, index) => (
+                <img
+                  key={image}
+                  src={image}
+                  alt={`The Happy Fryer storefront ${index + 1}`}
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                    index === currentImage ? 'opacity-100' : 'opacity-0'
+                  }`}
+                />
+              ))}
             </div>
 
             <div className="grid grid-cols-3 gap-4">
