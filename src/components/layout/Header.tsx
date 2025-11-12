@@ -42,7 +42,7 @@ const Header = () => {
       <div className={`w-full px-4 sm:px-6 lg:px-8`}>
         <div className="flex items-center justify-between py-3">
           {!shouldBeTransparent && (
-            <Link to="/" className="flex items-center space-x-3">
+            <Link to="/" className="flex items-center space-x-3 animate-fadeIn">
               <img
                 src="/happy_fryer_80.png"
                 alt="The Happy Fryer"
