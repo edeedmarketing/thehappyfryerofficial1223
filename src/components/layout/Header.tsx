@@ -28,16 +28,20 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const headerClasses = isHomePage && !isScrolled
+  const shouldBeTransparent = isHomePage && !isScrolled;
+
+  const headerPositionClasses = shouldBeTransparent ? 'absolute' : 'sticky';
+  const headerClasses = shouldBeTransparent
     ? 'bg-transparent shadow-none'
     : 'bg-white shadow-md';
 
-  const textClasses = isHomePage && !isScrolled ? 'text-white' : 'text-gray-700';
-  const logoClasses = isHomePage && !isScrolled ? 'text-white' : 'text-primary-600';
-  const activeClasses = isHomePage && !isScrolled ? 'text-white font-bold' : 'text-primary-600';
+  const textClasses = shouldBeTransparent ? 'text-white' : 'text-gray-700';
+  const logoClasses = shouldBeTransparent ? 'text-white' : 'text-primary-600';
+  const activeClasses = shouldBeTransparent ? 'text-white font-bold' : 'text-primary-600';
+  const mobileMenuClasses = shouldBeTransparent ? 'bg-white/95 backdrop-blur-sm' : 'bg-white';
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${headerClasses}`}>
+    <header className={`${headerPositionClasses} top-0 left-0 right-0 z-50 transition-all duration-300 ${headerClasses}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <Link to="/" className="flex items-center space-x-2">
@@ -79,7 +83,7 @@ const Header = () => {
         </div>
 
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t">
+          <div className={`md:hidden py-4 border-t ${mobileMenuClasses}`}>
             <nav className="flex flex-col space-y-4">
               {navLinks.map((link) => (
                 <Link
