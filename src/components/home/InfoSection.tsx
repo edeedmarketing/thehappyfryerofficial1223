@@ -2,6 +2,20 @@ import { Clock, MapPin, Phone } from 'lucide-react';
 import { BUSINESS_INFO } from '../../lib/constants';
 
 const InfoSection = () => {
+  const isOpen = () => {
+    const now = new Date();
+    const day = now.getDay();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const currentTime = hours + minutes / 60;
+
+    if (day === 1) return false;
+
+    return currentTime >= 11 && currentTime < 20;
+  };
+
+  const open = isOpen();
+
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,8 +40,12 @@ const InfoSection = () => {
               <Clock size={28} className="text-white" />
             </div>
             <h3 className="font-bold text-lg mb-3">Opening Hours</h3>
-            <div className="inline-flex items-center bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold mb-3">
-              ● OPEN NOW
+            <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold mb-3 ${
+              open
+                ? 'bg-green-100 text-green-700'
+                : 'bg-red-100 text-red-700'
+            }`}>
+              ● {open ? 'OPEN NOW' : 'CLOSED'}
             </div>
             <p className="text-gray-700 text-sm">Tuesday - Sunday</p>
             <p className="text-gray-700 text-sm">11:00 AM - 8:00 PM</p>
