@@ -21,7 +21,7 @@ const InfoSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div className="flex flex-col items-center text-center">
-            <div className="bg-blue-500 p-4 rounded-full mb-4">
+            <div className="bg-blue-500 p-4 rounded-full mb-4 transition-transform duration-300 hover:scale-110 hover:shadow-lg">
               <MapPin size={28} className="text-white" />
             </div>
             <h3 className="font-bold text-xl mb-4">Find Us</h3>
@@ -36,7 +36,7 @@ const InfoSection = () => {
           </div>
 
           <div className="flex flex-col items-center text-center">
-            <div className="bg-blue-500 p-4 rounded-full mb-4">
+            <div className="bg-blue-500 p-4 rounded-full mb-4 transition-transform duration-300 hover:scale-110 hover:shadow-lg">
               <Clock size={28} className="text-white" />
             </div>
             <h3 className="font-bold text-xl mb-4">Opening Hours</h3>
@@ -53,7 +53,7 @@ const InfoSection = () => {
           </div>
 
           <div className="flex flex-col items-center text-center">
-            <div className="bg-blue-500 p-4 rounded-full mb-4">
+            <div className="bg-blue-500 p-4 rounded-full mb-4 transition-transform duration-300 hover:scale-110 hover:shadow-lg">
               <Phone size={28} className="text-white" />
             </div>
             <h3 className="font-bold text-xl mb-4">Call Us</h3>
