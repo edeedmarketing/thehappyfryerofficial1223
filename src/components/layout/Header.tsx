@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone } from 'lucide-react';
 import { BUSINESS_INFO } from '../../lib/constants';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
 
   const navLinks = [
@@ -16,13 +17,31 @@ const Header = () => {
   ];
 
   const isActive = (path: string) => location.pathname === path;
+  const isHomePage = location.pathname === '/';
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const headerClasses = isHomePage && !isScrolled
+    ? 'bg-transparent shadow-none'
+    : 'bg-white shadow-md';
+
+  const textClasses = isHomePage && !isScrolled ? 'text-white' : 'text-gray-700';
+  const logoClasses = isHomePage && !isScrolled ? 'text-white' : 'text-primary-600';
+  const activeClasses = isHomePage && !isScrolled ? 'text-white font-bold' : 'text-primary-600';
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
+    <header className={`sticky top-0 z-50 transition-all duration-300 ${headerClasses}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <Link to="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-primary-600">
+            <div className={`text-2xl font-bold transition-colors ${logoClasses}`}>
               The Happy Fryer
             </div>
           </Link>
@@ -34,8 +53,8 @@ const Header = () => {
                 to={link.path}
                 className={`font-medium transition-colors ${
                   isActive(link.path)
-                    ? 'text-primary-600'
-                    : 'text-gray-700 hover:text-primary-600'
+                    ? activeClasses
+                    : `${textClasses} hover:text-primary-600`
                 }`}
               >
                 {link.label}
@@ -51,7 +70,7 @@ const Header = () => {
           </nav>
 
           <button
-            className="md:hidden p-2"
+            className={`md:hidden p-2 ${textClasses}`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
