@@ -43,9 +43,11 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-3">
           <Link to="/" className="flex items-center space-x-3">
-            <div className={`w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center transition-all duration-500 ${shouldBeTransparent ? 'bg-white/20' : 'bg-gray-800'}`}>
-              <span className="text-white text-lg font-bold">HF</span>
-            </div>
+            <img
+              src="/happy_fryer_80.png"
+              alt="The Happy Fryer"
+              className="w-12 h-12 transition-all duration-500"
+            />
             <div className={`text-xl font-bold transition-colors duration-500 ${logoTextClasses}`}>
               The Happy Fryer
             </div>
