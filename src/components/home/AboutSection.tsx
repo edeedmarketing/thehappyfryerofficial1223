@@ -70,9 +70,9 @@ const AboutSection = () => {
                     <div className="bg-blue-100 p-4 rounded-full w-16 h-16 flex items-center justify-center">
                       <Waves size={28} className="text-blue-600" strokeWidth={2} />
                     </div>
-                    <div className="absolute -top-1 -right-1 w-2 h-2 bg-blue-200 rounded-full"></div>
-                    <div className="absolute top-1 -left-2 w-1.5 h-1.5 bg-blue-200 rounded-full"></div>
-                    <div className="absolute -bottom-1 left-2 w-1.5 h-1.5 bg-blue-200 rounded-full"></div>
+                    <div className="absolute -top-1 -right-1 w-2 h-2 border-2 border-blue-300 rounded-full bg-white"></div>
+                    <div className="absolute top-1 -left-2 w-1.5 h-1.5 border-2 border-blue-300 rounded-full bg-white"></div>
+                    <div className="absolute -bottom-1 left-2 w-1.5 h-1.5 border-2 border-blue-300 rounded-full bg-white"></div>
                   </div>
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-1 text-base">Fresh Daily</h3>
