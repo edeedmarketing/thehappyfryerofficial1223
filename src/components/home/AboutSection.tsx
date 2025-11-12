@@ -48,25 +48,6 @@ const AboutSection = () => {
           style={{ animationDelay: '4s' }}
         />
         
-        {/* Animated Waves */}
-        <svg
-          className="absolute top-0 left-0 w-full h-40 opacity-20"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0,60 C300,120 600,0 900,60 C1050,90 1150,30 1200,60 L1200,0 L0,0 Z"
-            fill="url(#wave-gradient-1)"
-          />
-          <defs>
-            <linearGradient id="wave-gradient-1" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.3" />
-              <stop offset="50%" stopColor="#1D4ED8" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="#1E40AF" stopOpacity="0.3" />
-            </linearGradient>
-          </defs>
-        </svg>
-        
         <svg
           className="absolute bottom-0 right-0 w-full h-32 opacity-15 transform rotate-180"
           viewBox="0 0 1200 120"
